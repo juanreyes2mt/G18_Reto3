@@ -1,53 +1,52 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package usa.edu.co.reto2.repositorys;
+package g18.reto3.repositorio;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import usa.edu.co.reto2.model.Order;
-import usa.edu.co.reto2.repository.crud.InterfaceOrder;
 
-/**
- *
- * @author karen
- */
+import g18.reto3.interfaces.InterfaceOrder;
+import g18.reto3.modelo.ModeloOrder;
+
 @Repository
-public class OrderRepository {
+public class RepositorioOrder {
+
     @Autowired
-    private InterfaceOrder orderCrudRepository;
-    
+    private InterfaceOrder OrderCRUDRepository;
+
     //@Autowired
     //private MongoTemplate mongoTemplate;
 
-    public List<Order> getAll() {
-        return (List<Order>) orderCrudRepository.findAll();
+    public List<ModeloOrder> getAll() {
+        return (List<ModeloOrder>) OrderCRUDRepository.findAll();
     }
 
-    public Optional<Order> getOrder(int id) {
-        return orderCrudRepository.findById(id);
-    }
-
-    public Order create(Order order) {
-        return orderCrudRepository.save(order);
-    }
-
-    public void update(Order order) {
-        orderCrudRepository.save(order);
-    }
-
-    public void delete(Order order) {
-        orderCrudRepository.delete(order);
+    public Optional<ModeloOrder> getOrder(int id) {
+        return OrderCRUDRepository.findById(id);
     }
     
-    public List<Order> findByZone(String zona){
-       return orderCrudRepository.findByZone(zona);
+    public ModeloOrder create (ModeloOrder order) {
+        return OrderCRUDRepository.save(order);
     }
-    
-    //public List<Order> orderSalesManByDate(String dateStr, Integer id) {
+
+    public void update (ModeloOrder order) {
+        OrderCRUDRepository.save(order);
+    }
+
+    public void delete (ModeloOrder order) {
+        OrderCRUDRepository.delete(order);
+    }
+
+    public List<ModeloOrder> findByZone(String zona) {
+        return OrderCRUDRepository.findByZone(zona);
+    }
+
+    public Optional<ModeloOrder> lastUserId() {
+        return OrderCRUDRepository.findTopByOrderByIdDesc();
+    }
+
+        //public List<Order> orderSalesManByDate(String dateStr, Integer id) {
       //  DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         
         //Query query= new Query();
@@ -69,8 +68,4 @@ public class OrderRepository {
         //return orders;
          
      //}
-    
-    public Optional<Order> lastUserId(){
-        return orderCrudRepository.findTopByOrderByIdDesc();
-    }
 }

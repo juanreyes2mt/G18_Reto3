@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package usa.edu.co.reto2.web;
+package g18.reto3.controlador;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,41 +15,38 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import usa.edu.co.reto2.model.Order;
-import usa.edu.co.reto2.service.OrderService;
 
-/**
- *
- * @author karen
- */
+import g18.reto3.modelo.ModeloOrder;
+import g18.reto3.servicios.ServiciosOrder;
+
 @RestController
 @RequestMapping("/api/order")
 @CrossOrigin("*")
-public class OrderController {
-
+public class ControladorOrder {
+    
     @Autowired
-    private OrderService orderService;
+    private ServiciosOrder orderService;
 
     @GetMapping("/all")
-    public List<Order> getAll() {
+    public List<ModeloOrder> getAll() {
         return orderService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Optional<Order> getOrder(@PathVariable("id") int id) {
+    public Optional<ModeloOrder> getOrder(@PathVariable("id") int id) {
         return orderService.getOrder(id);
     }
 
     @PostMapping("/new")
     @ResponseStatus(HttpStatus.CREATED)
-    public Order create(@RequestBody Order gadget) {
-        return orderService.create(gadget);
+    public ModeloOrder create(@RequestBody ModeloOrder order) {
+        return orderService.create(order);
     }
 
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Order update(@RequestBody Order gadget) {
-        return orderService.update(gadget);
+    public ModeloOrder update(@RequestBody ModeloOrder order) {
+        return orderService.update(order);
     }
 
     @DeleteMapping("/{id}")
@@ -60,10 +54,10 @@ public class OrderController {
     public boolean delete(@PathVariable("id") int id) {
         return orderService.delete(id);
     }
-    
-    //reto3 ordenes de pedido asosciadas a los asesores
+
+    //Ordenes de pedido asosciadas a los asesores
     @GetMapping("/zona/{zona}")
-    public List<Order> findByZone(@PathVariable("zona") String zona){
+    public List<ModeloOrder> findByZone(@PathVariable("zona") String zona){
        return orderService.findByZone(zona);
     }
 }
