@@ -1,38 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package usa.edu.co.reto2.service;
+package g18.reto3.servicios;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import usa.edu.co.reto2.model.Order;
-import usa.edu.co.reto2.repositorys.OrderRepository;
 
-/**
- *
- * @author karen
- */
+import g18.reto3.modelo.ModeloOrder;
+import g18.reto3.repositorio.RepositorioOrder;
+
 @Service
-public class OrderService {
+public class ServiciosOrder {
 
     @Autowired
-    private OrderRepository orderRepository;
+    private RepositorioOrder OrderRepository;
 
-    public List<Order> getAll() {
-        return orderRepository.getAll();
+    public List<ModeloOrder> getAll() {
+        return OrderRepository.getAll();
     }
 
-    public Optional<Order> getOrder(int id) {
-        return orderRepository.getOrder(id);
+    public Optional<ModeloOrder> getOrder(int id) {
+        return OrderRepository.getOrder(id);
     }
 
-    public Order create(Order order) {
+    public ModeloOrder create(ModeloOrder order) {
 
         //obtiene el maximo id existente en la coleccion
-        Optional<Order> orderIdMaxima = orderRepository.lastUserId();
+        Optional<ModeloOrder> orderIdMaxima = OrderRepository.lastUserId();
 
         //si el id de la orden que se recibe como parametro es nulo, entonces valida el maximo id existente en base de datos
         if (order.getId() == null) {
@@ -45,23 +39,23 @@ public class OrderService {
             }
         }
 
-        Optional<Order> e = orderRepository.getOrder(order.getId());
+        Optional<ModeloOrder> e = OrderRepository.getOrder(order.getId());
         if (e.isEmpty()) {
-            return orderRepository.create(order);
+            return OrderRepository.create(order);
         } else {
             return order;
         }
     }
 
-    public Order update(Order order) {
+    public ModeloOrder update(ModeloOrder order) {
 
         if (order.getId() != null) {
-            Optional<Order> orderDb = orderRepository.getOrder(order.getId());
+            Optional<ModeloOrder> orderDb = OrderRepository.getOrder(order.getId());
             if (!orderDb.isEmpty()) {
                 if (order.getStatus() != null) {
                     orderDb.get().setStatus(order.getStatus());
                 }
-                orderRepository.update(orderDb.get());
+                OrderRepository.update(orderDb.get());
                 return orderDb.get();
             } else {
                 return order;
@@ -73,22 +67,22 @@ public class OrderService {
 
     public boolean delete(int id) {
         Boolean aBoolean = getOrder(id).map(order -> {
-            orderRepository.delete(order);
+            OrderRepository.delete(order);
             return true;
         }).orElse(false);
         return aBoolean;
     }
 
     //Ordenes de pedido asociadas a los asesores de una zona
-    public List<Order> findByZone(String zona) {
-        return orderRepository.findByZone(zona);
+    public List<ModeloOrder> findByZone(String zona) {
+        return OrderRepository.findByZone(zona);
     }
-//
-//    public List<Order> ordersSalesManByDate(String dateStr, int id) {
-//        return orderRepository.ordersSalesManByDate(dateStr, id);
+
+//    public List<ModeloOrder> ordersSalesManByDate(String dateStr, int id) {
+//        return OrderCRUDRepository.ordersSalesManByDate(dateStr, id);
 //    }
 //    
-//    public List<Order> ordersSalesManByState(String state, Integer id) {
-//        return orderRepository.ordersSalesManByState(state, id);
+//    public List<ModeloOrder> ordersSalesManByState(String state, Integer id) {
+//        return OrderCRUDRepository.ordersSalesManByState(state, id);
 //    }
 }
