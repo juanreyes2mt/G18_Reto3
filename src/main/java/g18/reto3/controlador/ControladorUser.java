@@ -1,6 +1,7 @@
 package g18.reto3.controlador;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,11 @@ public class ControladorUser {
     @GetMapping("/all")
     public List<ModeloUser> getAll() {
         return UserService.getAll();
+    }
+    
+    @GetMapping("/{id}")
+    public Optional <ModeloUser> getUser(@PathVariable("id") int id) {
+        return UserService.getUser(id);
     }
     
     @PostMapping("/new")
